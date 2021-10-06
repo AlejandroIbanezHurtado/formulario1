@@ -1,23 +1,33 @@
 <?php
-function validar($nombreBoton)
+function validar()
 {
-    $res=false;
-    if(isset($_POST['numero1']) && isset($_POST['numero2']) && isset($_POST[$nombreBoton]))
-    {
-        if(is_numeric($_POST['numero1']) && is_numeric($_POST['numero2']))
+    $errores = array();
+    
+    if(isset($_POST['numero1']) && $_POST['numero1']!='')
+    {   
+        if(!is_numeric($_POST['numero1']))
         {
-            $res=true;
-        }
-        else
-        {
-            $res=false;
+            $errores['numero1'] = 'En primer número no hay un número<br>';
         }
     }
     else
     {
-        $res=false;
+        $errores['numero1'] = 'Primer número no existe<br>';
     }
-    return $res;
+
+    if(isset($_POST['numero2']) && $_POST['numero2']!='')
+    {
+        if(!is_numeric($_POST['numero2']))
+        {
+            $errores['numero2']='En segundo número no hay un número<br>';
+        }
+    }
+    else
+    {
+        $errores['numero2'] = 'Segundo número no existe<br>';
+    }
+    
+    return $errores;
 }
 function saberBoton()
 {
@@ -77,22 +87,52 @@ function saberFuncionDeBoton()
 }
 function proceso()
 {
-    $nombreBoton = saberBoton();
-    $function = saberFuncionDeBoton();
-
-    if(validar($nombreBoton)==true)
+    if(isset($_POST['botonSuma']) || isset($_POST['botonResta']) || isset($_POST['botonMulti']) || isset($_POST['botonDivi']))
     {
-        $n1 = $_POST['numero1'];
-        $n2 = $_POST['numero2'];
-        $funcion = $function($n1,$n2);
-        pintor($funcion);
+        $nombreBoton = saberBoton();
+        $function = saberFuncionDeBoton();
+        $numError = count(validar());
+        $errores=validar();
+        if($numError>0)
+        {
+            foreach($errores as &$valor)
+            {
+                pintor($valor);
+            }
+        }
+        else
+        {
+            $n1 = $_POST['numero1'];
+            $n2 = $_POST['numero2'];
+            $funcion = $function($n1,$n2);
+            pintor($funcion);
+        }
     }
-    else
-    {
-        header("Location: formulario.php");
-    }
+    
 }
 
+function pillaBuenos()
+{
+    $buenos = array();
+    
+    if(isset($_POST['numero1']) && $_POST['numero1']!='')
+    {   
+        if(is_numeric($_POST['numero1']))
+        {
+            $buenos['numero1'] = $_POST['numero1'];
+        }
+    }
+
+    if(isset($_POST['numero2']) && $_POST['numero2']!='')
+    {
+        if(is_numeric($_POST['numero2']))
+        {
+            $buenos['numero2']=$_POST['numero2'];
+        }
+    }
+    
+    return $buenos;
+}
 
 function pintor($dato)
 {

@@ -7,7 +7,7 @@ http://www.w3.org/TR/html4/loose.dtd">
           <?php include "libreriaFormulario.php"; ?>
      </head>
      <body>
-         <form action="formulario.php" method="post">
+         <form action="" method="post">
              Primer número: <input type="text" name="numero1" id="numero1">
              <br><br>
              Segundo número: <input type="text" name="numero2" id="numero2">
