@@ -326,7 +326,6 @@ function pintarFormulario()
             echo "\">";
         }
         echo "<br><br><br>";
-        //CHECKBOX
 
         //BOTON
         echo "<input type=\"submit\" value=\"VALIDAR\" name=\"validarBuenos\">";
@@ -374,15 +373,34 @@ function pintarFormulario()
                 echo "<style type=\"text/css\">#texto{position: absolute; left: 500px; bottom: 500px; background-color: #ff9999; border-radius: 5px; border: red 5px solid;}</style>";
             }
         }
+
+        
+        if(count($malos)==0)
+        {
+            if(isset($_POST['ciudades']))
+            {
+                $a = creaAlumno($_POST['nombre'],$_POST['ap1'],$_POST['ap2'],$_POST['dni'],$_POST['fecha'],$_POST['correo'],$_POST['web'],$_POST['ciudades']);
+            }
+            else
+            {
+                $a = creaAlumno($_POST['nombre'],$_POST['ap1'],$_POST['ap2'],$_POST['dni'],$_POST['fecha'],$_POST['correo'],$_POST['web'],null);
+            }
+        }
+        
         
         
     }
-    
-    
+    var_dump($a);
 }
 
 function pintor($dato)
 {
     echo $dato;
+}
+
+function creaAlumno($nombre,$ap1,$ap2,$dni,$f_nac,$correo,$web,$ciudades)
+{
+    $a = new Alumno($nombre, $ap1, $ap2, $dni, $f_nac, $correo, $web, $ciudades);
+    return $a;
 }
 
